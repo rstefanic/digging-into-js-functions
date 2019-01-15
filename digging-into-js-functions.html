@@ -1,0 +1,346 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>reveal.js</title>
+
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/black.css">
+
+		<!-- Theme used for syntax highlighting of code -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<section>
+					<h2>Digging Into JavaScript Functions</h2>
+				</section>
+				<section>
+					<section>
+						<h3>What makes javaScript functions unique?</h3>
+					</section>
+					<section>
+						<p>JS functions are unique because they're really just objects, meaning that they can be accessed,
+							copied, overwritten, inherited, and treated like any other object in the language.
+						</p>
+					</section>
+				</section>
+				<section>
+					<h2>Section 1:</h2>
+					<p>Primitive Types and Reference Types</p>
+					<!-- <section data-markdown>
+						Example:
+						```js
+						var example = "Robert";
+						```
+					</section> -->
+				</section>
+				<section>
+					<section>
+						<div style="float: left">
+							<h3>Primitive Types</h3>
+							<p>Simple data types</p>
+						</div>
+						<div style="float: right">
+							<h3>Reference Types</h3>
+							<p>References to locations in memory</p>
+						</div>
+					</section>
+					<section>
+						<h3>Common misconception</h3>
+						<p>JavaScript does <strong><em>not</em></strong> distinguish these two by storing one on the stack and the other on the heap.</p>
+					</section>
+				</section>
+				<section>
+					<section>
+						<h3>Primitive Types</h3>
+						Can we name all of the primitive types in JavaScript?
+					</section>
+					<section>
+						<h3>JavaScript's Primitive Types</h3>
+						<ul>
+							<li>Boolean</li>
+							<li>String</li>
+							<li>Number</li>
+							<li>Null</li>
+							<li>Undefined</li>
+						</ul>
+					</section>
+					<section>
+						<p>Primitive types are stored as literals in the variable object.</p>
+						<div data-markdown>
+							```js
+								let s = "Hello!";   // string
+								let n = 42;         // number
+								let myBool = true;  // bool
+								let nothing = null; // null
+								let variable;       // undefined
+							```
+						</div>
+					</section>
+					<section>
+						<p>What is the output of this program?</p>
+						<div data-markdown>
+							```js
+								let hobby1 = "Bowling";
+								let hobby2 = hobby;
+								hobby1 = "Running";
+								console.log(hobby);
+								console.lob(hobby2);
+							```
+						</div>
+					</section>
+					<section>
+						<p>Here is a breakdown of the previous program in memory</p>
+						<div data-markdown>
+							```js
+								let hobby1 = "Bowling";
+								let hobby2 = hobby;
+							```
+							```
+							_______________________
+							|   VARIABLE OBJECT   |
+							|---------------------|
+							|  hobby1 | "Bowling" |
+							|  hobby2 | "Bowling" |
+							-----------------------
+							```
+							<p>When ``hobby2`` is created, the literal value of ``hobby1`` is copied and assigned to ``hobby2``.</p>
+						</div>
+					</section>
+					<section>
+						<div data-markdown>
+							<p>Then once the value of ``hobby1`` is changed, it doesn't change the value of ``hobby2`` because ``hobby2`` has its own value.</p>
+							```js
+								hobby1= "Running";
+							```
+							```
+							_______________________
+							|   VARIABLE OBJECT   |
+							|---------------------|
+							|  hobby1 | "Running" |
+							|  hobby2 | "Bowling" |
+							-----------------------
+							```
+						</div>
+					</section>
+				</section>
+				<section>
+					<section data-markdown>
+						<p>We can figure out a variable's type using the ``typeof()`` operator.</p>
+						```js
+							typeof(hobby1); // "string"
+							typeof(42);     // "number"
+							typeof(true);   // "boolean"
+						```
+					</section>
+					<section data-markdown>
+						<p>Great! Would this also work for ``null`` and ``undefined``?</p>
+						```js
+							typeof(undefined); // ???
+							typeof(null);      // ???
+						```
+					</section>
+					<section data-markdown>
+						<p>Sort of...</p>
+						```js
+							typeof(undefined); // "undefined"
+							typeof(null);      // "object"
+						```
+					</section>
+				</section>
+				<section>
+					<section>
+						<h3>Reference Types</h3>
+						Reference Types store the locations of objects.	
+					</section>
+					<section>
+						<h3>What is an Object?</h3>
+						<ul>
+						<li>An object is a collection of name/value pairs called <em>properties</em>.</li>
+						<li>The name of a <em>property</em> is always a string.</li>
+						<li>When the value of a property is a function, we call it a <em>method</em>.</li>
+						</ul>
+					</section>
+					<section data-markdown>
+						<p>What is the output of this program?</p>	
+						```js
+							let obj1 = new Object();
+							obj1.name = "Rob";
+							
+							let obj2 = obj1;
+							obj2.name = "Ben";
+
+							console.log(obj1.name);
+							console.log(obj2.name);
+						```
+					</section>
+					<section>
+						<p>Here is a breakdown of our program where we created two objects in memory</p>
+						<div data-markdown>
+							```js
+								let obj1 = new Object();
+								obj1.name = "Rob";
+							```
+							```
+							___________________               _____________________
+							| VARIABLE OBJECT |               |       MEMORY      |
+							|-----------------|               |-------------------|
+							|  obj1   |   *   | ------------> |   Object  | ----- |
+							|-----------------|               | this.name | "Rob" |
+							                                  |-------------------|
+							```
+							<p>When ``obj1`` was created, the variable object stores a pointer to the newly object in memory</p>
+						</div>
+					</section>
+					<section>
+						<div data-markdown>
+							<p>When the new ``obj2`` is created, the value in the variable object of ``obj1`` is copied 
+								(just like they were with the primitive types). </p>
+							```js
+							let obj2 = obj1;
+							```
+							```
+							___________________               _____________________
+							| VARIABLE OBJECT |               |       MEMORY      |
+							|-----------------|               |-------------------|
+							|  obj1   |   *   | ------------> |   Object  | ----- |
+							|  obj2   |   *   | ------------> | this.name | "Rob" |
+							|-----------------|               |-------------------|
+							```
+							<p>But the value stored in ``obj1`` is merely a 
+								pointer to the newly created object in memory. 
+								So ``obj2`` is just another pointer to the same object.</p>
+						</div>
+					</section>
+					<section data-markdown>
+						<p>That is why when we change the value of ``obj2.name``, it changes the same value in memory.
+						</p>
+						```js
+							obj2.name = "Ben";
+						```
+						```
+						___________________               _____________________
+						| VARIABLE OBJECT |               |       MEMORY      |
+						|-----------------|               |-------------------|
+						|  obj1   |   *   | ------------> |   Object  | ----- |
+						|  obj2   |   *   | ------------> | this.name | "Ben" |
+						|-----------------|               |-------------------|
+						```
+						<p>Which is why ``obj1.name`` returns "Ben" like it does for ``obj2.name``.</p>
+					</section>
+				</section>
+				<section>
+					<section>
+						<h2>So when are these variables destroyed?</h2>
+					</section>
+					<section>
+						<h2>Primitive Types</h2>
+						<p>Primitive types are destroyed when the variable object is out of scope.</p>
+					</section>
+					<section>
+						<h2>Reference Types</h2>
+						<p>While JS is a garbage collected language, and you don't need to worry about your memory allocation, 
+							you can delete your reference to it.
+						</p>
+						<div data-markdown>
+							```js
+							let obj = new Object();
+
+							// Do stuff
+
+							obj = null;
+							```
+						</div>
+						<p>This lets the garbage collector know that the memory can be used for something else.</p>
+					</section>
+				</section>
+				<section>
+					<section data-markdown>
+						<h2>Okay that's cool and all, but what about accessing properties on primitive types?</h2>
+						```js
+						let state = "Illinois";
+						let firstLetter = state.charAt(0);
+						console.log(firstLetter); // "I"
+						```
+						<p>Are the primitive types really objects under the hood then since they have properties and methods that we can access?</p>
+					</section>
+					<section>
+						<p>No, they are not.</p>
+						<p data-markdown>The declaration of ``let state = "Illinois";`` is still a primitive string.</p>
+					</section>
+					<section>
+						<p>These are known as <strong>Primitive Wrapper Types</strong>.</p>
+						<p>At runtime, that JavaScript engine will create a temporary object and immediately destory it once it completes the operation.</p>
+						<p data-markdown>There three primitive wrapper types are for ``String``, ``Number``, and ``Boolean``.</p>
+					</section>
+					<section>
+						<p>This code:</p>
+						<div data-markdown>
+							```js
+							let state = "Illinois";
+							let firstLetter = state.charAt(0);
+							console.log(firstLetter); 
+							```
+						</div>
+						<p>Is ran like this by the JS engine:</p>
+						<div data-markdown>
+							```js
+							let state = "Illinois";
+							let temp = new String(state);
+							let firstLetter = temp.charAt(0);
+							temp = null;
+							console.log(firstLetter); 
+							```
+						</div>
+					</section>
+				</section>
+				<section>
+					<h2>Section 2:</h2>
+					<p>Objects in JavaScript</p>
+				</section>
+				<section>
+					<h2>Section 3:</h2>
+					<p>Manipulating Function Objects</p>
+				</section>
+				<section>
+					<h2>Thanks for listening</h2>
+					<p>Special thanks to the authors of reveal.js for their awesome framework to create slides 
+						using JavaScript.</p>
+					<p>https://github.com/hakimel/reveal.js/</p>
+					<p>All the slides for this presentation are available on GitHub as well:</p>
+					<p>https://github.com/rstefanic</p>
+				</section>
+			</div>
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.js"></script>
+
+		<script>
+			// More info about config & dependencies:
+			// - https://github.com/hakimel/reveal.js#configuration
+			// - https://github.com/hakimel/reveal.js#dependencies
+			Reveal.initialize({
+				dependencies: [
+					{ src: 'plugin/markdown/marked.js' },
+					{ src: 'plugin/markdown/markdown.js' },
+					{ src: 'plugin/notes/notes.js', async: true },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+				]
+			});
+		</script>
+	</body>
+</html>
