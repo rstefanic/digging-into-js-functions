@@ -4,7 +4,7 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-		<title>reveal.js</title>
+		<title>Digging into JS Functions</title>
 
 		<link rel="stylesheet" href="css/reveal.css">
 		<link rel="stylesheet" href="css/theme/black.css">
@@ -269,6 +269,24 @@
 				</section>
 				<section>
 					<section data-markdown>
+						<p>And besides ``Object``, there are more built in reference types that we can use</p>
+						```js
+						let date = new Date();
+						let regex = new RegExp("\d");
+						let arr = new Array();
+						```
+					</section>
+					<section data-markdown>
+						<p>And we can use the ``instanceof`` operation to see the type of a reference type.</p>
+						```js
+						console.log(date instanceof Date);    // true
+						console.log(regex instanceof RegExp); // true
+						console.log(arr instanceof Array);    // true ** Don't do this
+						```
+					</section>
+				</section>
+				<section>
+					<section data-markdown>
 						<h2>Okay that's cool and all, but what about accessing properties on primitive types?</h2>
 						```js
 						let state = "Illinois";
@@ -309,7 +327,108 @@
 				</section>
 				<section>
 					<h2>Section 2:</h2>
-					<p>Objects in JavaScript</p>
+					<p>Functions in JavaScript</p>
+				</section>
+				<section>
+					<section>
+						<p>What is the output of this program?</p>
+						<div data-markdown>
+							```js
+							function sayHi() { 
+								console.log("Hi!"); 
+							}
+
+							console.log(typeof sayHi);
+							```
+						</div>
+					</section>
+					<section>
+						<p data-markdown>``sayHi`` is an object of type "function"!</p>
+					</section>
+					<section>
+						<p>Turns out, Function is also a built in reference type!</p>
+						<div data-markdown>
+							```js
+							let f = new Function("console.log(\"Hi!\");");
+							```
+						</div>
+						<p>(Please do not write your functions like this)</p>
+					</section>
+					<section>
+						<p>So functions in JS are actually objects.</p>
+						<p>But how just the JS engine know that sayHi is a function? And why don't we have to use the "instanceof" operator like the other objects?</p>
+					</section>
+					<section>
+						<p>JavaScript has number of internal properties that cannot be accessed through code.</p>
+						<p>Internal Properties are indicated by the double square bracket notation.</p>
+					</section>
+					<section>
+						<p data-markdown>The internal property that lets the JS engine know that it's a function is the ``[[Call]]`` property.</p>
+						<p data-markdown>The ``[[Call]]`` property is unique to functions and they let the JS engine know that the object can be executed.</p>
+					</section>
+				</section>
+				<section>
+					<section>
+						<p>Ways to define functions in JavaScript.</p>
+						<p>Besides using the terrible Funcion constructor, functions can be defined through a <strong>declaration</strong> or an <strong>expression</strong>.</p>
+					</section>
+					<section>
+						<h2>Function Declarations</h2>
+						<div data-markdown>
+							```js
+							function myFuncDecl(arg1, arg2) {
+								// do something
+							}
+							```
+						</div>
+					</section>
+					<section>
+						<h2>Function Expressions</h2>
+						<div data-markdown>
+							```js
+							const myFuncExpr = function(arg1, arg2) {
+								// do something
+							};
+
+							/* OR */
+
+							const myOtherFuncExpr = (arg1, arg2) => { // do something };
+							```
+						</div>
+					</section>
+					<section>
+						<h2>What's the difference?</h2>
+						<p><strong>Function declarations</strong> are <em>hoisted</em> to the top of the current context. This means you can use them before they're defined (no forward delcarations required).</p>
+						<p><strong>Function Expressions</strong> aren't known until they've been evaluated.</p>
+					</section>
+				</section>
+				<section>
+					<section>
+						<p>Since functions are really just objects, they can be treated just like any other object.</p>
+					</section>
+					<section>
+						<p data-markdown>In this example, ``sameAsMyFunc`` points to the same function that ``myFunc`` points to.</p>
+						<div data-markdown>
+						```js
+						const myFunc = () => { return 5; };
+
+						const sameAsMyFunc = myFunc;
+
+						console.log(sameAsMyFunc());
+						```
+						</div>
+					</section>
+					<section>
+						<p>And since these functions are really objects, they have properties that we can access.</p>
+						<div data-markdown>
+							```js
+							const id = (value) => { return value; };
+
+							console.log(id.length); // 1
+							```
+						</div>
+						<p data-markdown>The ``length`` property lets us know how many arguments a function is expceting.</p>
+					</section>
 				</section>
 				<section>
 					<h2>Section 3:</h2>
@@ -321,7 +440,7 @@
 						using JavaScript.</p>
 					<p>https://github.com/hakimel/reveal.js/</p>
 					<p>All the slides for this presentation are available on GitHub as well:</p>
-					<p>https://github.com/rstefanic</p>
+					<p>https://github.com/rstefanic/digging-into-js-functions</p>
 				</section>
 			</div>
 		</div>
