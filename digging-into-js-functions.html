@@ -281,8 +281,9 @@
 						```js
 						console.log(date instanceof Date);    // true
 						console.log(regex instanceof RegExp); // true
-						console.log(arr instanceof Array);    // true ** Don't do this
+						console.log(arr instanceof Array);    // true 
 						```
+						<p>**Don't use ``instanceof`` on Arrays</p>
 					</section>
 				</section>
 				<section>
@@ -392,7 +393,7 @@
 
 							/* OR */
 
-							const myOtherFuncExpr = (arg1, arg2) => { // do something };
+							const myOtherFuncExpr = (arg1, arg2) => { /* do something */ };
 							```
 						</div>
 					</section>
@@ -520,6 +521,74 @@
 				<section>
 					<h2>Section 3:</h2>
 					<p>Fun with Functions</p>
+				</section>
+				<section>
+					<p>So now what?</p>
+				</section>
+				<section>
+					<p>We can pass nearly any amount of parameters to a function.</p>
+					<div data-markdown>
+						```js
+						function product() {
+							let answer = 1;
+							for (let i = 0; i < arguments.length; i++) {
+								answer *= arguments[i];
+							}
+							return answer;
+						}
+
+						product(100, 20);
+						product(592, 29, 105);
+						product(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+						```
+					</div>
+				</section>
+				<section>
+					<section>
+						<h2>We can overload functions!</h2>
+						<p>(In JavaScript?)</p>
+					</section>
+					<section>
+						<div data-markdown>
+							<p>Function Overloading</p>
+							```js
+							function print(msg) {
+								if (arguments.lengeth === 0) {
+									msg = "Default";
+								}
+
+								console.log(msg);
+							}
+							```
+						</div>
+					</section>
+					<section>
+						<p data-markdown>We can also overload a function by checking the types using the ``typeof`` and ``instanceof`` operations.</p>
+						<div data-markdown>
+							```js
+							function contrivedFunction(arg) {
+								if (typeof(arg) === "string") {
+									return arg + "!";
+								}
+								else if (typeof(arg) === "number") {
+									return arg * 2;
+								}
+								else {
+									return arg;
+								}
+							}
+
+							contrivedFunction("Hello"); // "Hello!"
+							contrivedFunction(2);       // 4
+							```
+						</div>
+					</section>
+				</section>
+				<section>
+					<p>Since functions are just values, they can be passed as arguments to other functions.</p>
+				</section>
+				<section>
+					<p>When would you ever use the Function constructor?</p>
 				</section>
 				<section>
 					<h2>Thanks for listening</h2>
