@@ -327,7 +327,7 @@
 				</section>
 				<section>
 					<h2>Section 2:</h2>
-					<p>Functions in JavaScript</p>
+					<p>The Function Object in JavaScript</p>
 				</section>
 				<section>
 					<section>
@@ -420,19 +420,106 @@
 					</section>
 					<section>
 						<p>And since these functions are really objects, they have properties that we can access.</p>
+					</section>
+					<section>
 						<div data-markdown>
 							```js
-							const id = (value) => { return value; };
+							let id = (value) => { return value; };
 
 							console.log(id.length); // 1
 							```
 						</div>
 						<p data-markdown>The ``length`` property lets us know how many arguments a function is expceting.</p>
 					</section>
+					<section>
+						<p data-markdown>We can also access the arguments passed to a function using the ``arguments`` property</p>
+						<div data-markdown>
+							```js
+							function id() {
+								retrun arguments[0];
+							}
+
+							console.log(id(5)); // 5
+							```
+						</div>
+					</section>
+				</section>
+				<section>
+					<section>
+						<h2>Manipulating a function's "this" context</h2>
+						<p data-markdown>Every scope has a ``this`` object defined which refrences the calling object</p>
+					</section>
+					<section>
+						<p data-markdown>We can manipulate what ``this`` refers to in a function by using some methods on the function object.</p>
+					</section>
+					<section>
+						<p>.call()</p>
+						<div data-markdown>
+							```js
+							this.hobby = "Bowling"; // Global scope
+
+							let me = { hobby: "Swimming" };
+
+							let friend = { hobby: "Running" };
+
+							function sayFavoriteHobby() { 
+								console.log(this.hobby); 
+							};
+
+							sayFavoriteHobby.call(this);   // Makes the context object global
+							sayFavoriteHobby.call(me);     // Makes the context object "me"
+							sayFavoriteHobby.call(friend); // Makes the context object "friend"
+							```
+						</div>
+					</section>
+					<section>
+						<p>.apply()</p>
+						<div data-markdown>
+							```js
+							this.hobby = "Bowling"; // Global scope
+
+							let me = { hobby: "Swimming" };
+
+							let friend = { hobby: "Running" };
+
+							function sayWhosFavoriteHobby() { 
+								console.log(arguments[0] + "'s hobby: " + this.hobby); 
+							};
+
+							sayWhosFavoriteHobby.apply(this, ["Window"]);
+							sayWhosFavoriteHobby.apply(me, ["Rob"]);     
+							sayWhosFavoriteHobby.apply(friend, ["Luis"]);
+							```
+						</div>
+					</section>
+					<section>
+						<p data-markdown>``bind()`` is the newest function for manipulating ``this``, and it's extremely powerful.</p>
+						<p data-markdown>The first argument is the ``this`` context for the function, and every other argument is the argument for the named parameters for the function being bound.</p>
+					</section>
+					<section>
+						<p>.bind()</p>
+						<div data-markdown>
+							```js
+							function addTwoValues(y) {
+								return this.num + y;
+							}
+							let five = { num: 5 };
+							let ten = { num: 10 };
+
+							let fiveAdder = addTwoValues.bind(five);
+							fiveAdder(10); // Adds 10 to 5
+							fiveAdder(15); // Adds 15 to 5
+							let tenAdder = addTwoValues.bind(ten);
+							tenAdder(10); // Adds 10 to 10
+							let constHundred = addTwoValues.bind(ten, 90);
+							constTwenty(); // 20
+							```
+						</div>
+					</section>
 				</section>
 				<section>
 					<h2>Section 3:</h2>
-					<p>Manipulating Function Objects</p>
+					<p>Fun with Functions</p>
 				</section>
 				<section>
 					<h2>Thanks for listening</h2>
