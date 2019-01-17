@@ -327,6 +327,68 @@
 					</section>
 				</section>
 				<section>
+					<section>
+						<p data-markdown>So what's the deal with ``==`` and ``===``?</p>
+						<ul>
+						<li data-markdown>``==`` will ignore the types and try and coerce the values before comparing them.</li>
+						<li data-markdown>``===`` will check both to see if both the types are the same and the value without coercion.</li>
+						</ul>
+					</section>
+					<section>
+						<p>So what about comparing these two objects?</p>
+						<p>What will these last two expressions return?</p>
+						<div data-markdown>
+							```js
+							let a = [1, 2, 3];
+							let b = [1, 2, 3];
+
+							a == b;
+							a === b;
+							```
+						</div>
+					</section>
+					<section>
+						<p>Both of them are false.</p>
+						<div data-markdown>
+							```js
+							a == b;  // false
+							a === b; // false
+							```
+						</div>
+						<p>Why?</p>
+					</section>
+					<section>
+						<p>Rules for equality:</p>
+						<p data-markdown>For Primitive Types: ```x === y``` returns true if ```x``` and ```y``` have the same type and value</p>
+						<p data-markdown>For Reference Types: ```x === y``` returns true they reference the same object</p>
+					</section>
+					<section>
+						<h2>Trick question</h2>
+						<p>What about this?</p>
+						<div data-markdown>
+							```js
+							let a = new String("Hi");
+							let b = "Hi";
+
+							a === b;
+							```
+						</div>
+					</section>
+					<section>
+						<p data-markdown>It's false because ``a`` is of type ``Object`` and ``b`` is of type ``string``.</p>
+						<div data-markdown>
+							```js
+							let a = new String("Hi");
+							let b = "Hi";
+
+							console.log(typeof(a)); // "object"
+							console.log(typeof(b)); // "string"
+							```
+						</div>
+						<p data-markdown>So ``a === b`` is false.</p>
+					</section>
+				</section>
+				<section>
 					<h2>Section 2:</h2>
 					<p>The Function Object in JavaScript</p>
 				</section>
