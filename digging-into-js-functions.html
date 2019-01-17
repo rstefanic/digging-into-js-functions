@@ -647,10 +647,113 @@
 					</section>
 				</section>
 				<section>
-					<p>Since functions are just values, they can be passed as arguments to other functions.</p>
+					<section>
+						<p>Since functions are just values, they can be passed as arguments to other functions.</p>
+						<p>JS supports higher order functions, and it's one of the most powerful features of the language.</p>
+					</section>
+					<section>
+						<p>We can pass a function to a function that will run it twice.</p>
+						<div data-markdown>
+							```js
+							function lotsOfComputations() {
+								console.log("Running...");
+							}
+
+							function runTwice(func) {
+								func();
+								func();
+							}
+
+							runTwice(lotsOfComputations);
+							```
+						</div>
+					</section>
+					<section>
+						<p>Let's specify how many times we want it to run a function.</p>
+						<div data-markdown>
+							```js
+							function runNTimes(func, n) {
+								while(n-- > 0) {
+									func();
+								}
+							}
+
+							runNTimes(lotsOfComputations, 5);
+							```
+						</div>
+					</section>
+					<section>
+						<p>We can use higher order functions to be more expressive as well!</p>
+						<div data-markdown>
+						```js
+						function unless(condition, then) {
+							if (!condition) {
+								then();
+							}
+						}
+						```
+						</div>
+					</section>
+					<section>
+						<p>Consider the example "Unless I'm a math wiz, then I better study for the test."</p>
+						<div data-markdown>
+							```js
+							function studyHard() { console.log("Studying..."); }
+
+							let Rob = { isMathWiz: false, study: studyHard };
+
+							unless(Rob.isMathWiz, Rob.study);
+							```
+						</div>
+					</section>
 				</section>
 				<section>
-					<p>When would you ever use the Function constructor?</p>
+					<section>
+						<p>We can also return new functions.</p>
+						<div data-markdown>
+							```js
+							function talk(greeting) {
+								return function(name) {
+									return greeting + " " + name + "!";
+								}
+							}
+
+							let spanishGreeting = talk("Hola");
+							let germanGreeting = talk("Hallo");
+
+							console.log(spanishGreeting("Rob")); // "Hola Rob!"
+							console.log(germanGreeting("Paul")): // "Hallo Paul!"
+							```
+						</div>
+					</section>
+				</section>
+				<section>
+					<section>
+						<p>How about some of the built in higher order functions?</p>
+					</section>
+					<section>
+						<p>.map()</p>
+						<div data-markdown>
+
+						</div>
+					</section>
+					<section>
+						<p>.filter()</p>
+						<div data-markdown>
+
+						</div>
+					</section>
+					<section>
+						<p>.reduce()</p>
+						<div data-markdown>
+
+						</div>
+					</section>
+				</section>
+				<section>
+					<section>
+						<p>When would you ever use the Function constructor?</p>
+					</section>
 				</section>
 				<section>
 					<h2>Thanks for listening</h2>
