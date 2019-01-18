@@ -1,5 +1,7 @@
 # Digging into JS Functions
 
+Now with less typos!
+
 ## Special Thanks
 Thank you to the author of reveal.js for their amazing library!
 
